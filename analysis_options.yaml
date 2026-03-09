@@ -1,0 +1,13 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  plugins:
+    - custom_lint
+
+custom_lint:
+  rules:
+    - no_direct_color_usage
+
+linter:
+  rules:
+    # suas regras normais aqui se quiser
