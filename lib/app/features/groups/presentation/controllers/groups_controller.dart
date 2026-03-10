@@ -115,10 +115,6 @@ class GroupsController extends BasePaginationController<Group> {
     }
   }
 
-  Future<void> search() async {
-    await load(newPage: 1);
-  }
-
   Group _buildEntity() {
     final clinic = clinicSelected ?? editingGroup?.clinic;
 

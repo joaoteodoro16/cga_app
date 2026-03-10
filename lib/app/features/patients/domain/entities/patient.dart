@@ -4,6 +4,7 @@ class Patient {
   final String id;
   final String name;
   final List<Group> groups;
+  final String phone;
   final DateTime startDate;
   final DateTime endDate;
   final double startingWeight;
@@ -15,9 +16,6 @@ class Patient {
     required this.startDate,
     required this.endDate,
     required this.startingWeight,
+    required this.phone,
   });
-
-
-  
 }
-

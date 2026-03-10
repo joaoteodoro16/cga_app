@@ -38,6 +38,10 @@ abstract class BasePaginationController<T> extends BaseController {
     }
   }
 
+  Future<void> search() async {
+    await load(newPage: 1);
+  }
+
   Future<void> nextPage() async {
     if (hasNextPage) {
       await load(newPage: page + 1);

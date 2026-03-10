@@ -7,6 +7,7 @@ import 'package:cga_app/app/features/groups/bindings/groups_bindings.dart';
 import 'package:cga_app/app/features/groups/presentation/pages/groups_page.dart';
 import 'package:cga_app/app/features/home/bindings/home_binding.dart';
 import 'package:cga_app/app/features/home/presentation/pages/home_page.dart';
+import 'package:cga_app/app/features/patients/bindings/patients_bindings.dart';
 import 'package:cga_app/app/features/patients/presentation/pages/patients_page.dart';
 import 'package:get/get.dart';
 
@@ -25,16 +26,17 @@ class AppPages {
     GetPage(
       name: AppRoutes.clinics,
       page: () => ClinicsPage(),
-      binding: ClinicsBindings()
+      binding: ClinicsBindings(),
     ),
     GetPage(
       name: AppRoutes.groups,
       page: () => GroupsPage(),
-       binding: GroupsBindings()
+      binding: GroupsBindings(),
     ),
     GetPage(
       name: AppRoutes.patients,
       page: () => PatientsPage(),
+      binding: PatientsBindings(),
     ),
   ];
 }
