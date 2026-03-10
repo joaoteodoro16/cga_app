@@ -1,5 +1,6 @@
 import 'package:cga_app/app/core/pagination/entities/paginated_result.dart';
 import 'package:cga_app/app/features/groups/data/datasources/remote/group_remote_datasource.dart';
+import 'package:cga_app/app/features/groups/data/dtos/group_dto.dart';
 import 'package:cga_app/app/features/groups/domain/entities/group.dart';
 import 'package:cga_app/app/features/groups/domain/repositories/group_repository.dart';
 
@@ -26,5 +27,15 @@ class GroupRepositoryImpl extends GroupRepository {
       totalItems: result.totalItems,
       totalPages: result.totalPages,
     );
+  }
+  
+  @override
+  Future<void> add({required Group group}) async{
+    return await _remote.add(group: GroupDto.fromEntity(group));
+  }
+  
+  @override
+  Future<void> update({required Group group}) async{
+    return await _remote.update(group: GroupDto.fromEntity(group));
   }
 }

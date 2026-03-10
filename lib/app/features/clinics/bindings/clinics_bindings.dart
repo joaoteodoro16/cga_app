@@ -3,8 +3,10 @@ import 'package:cga_app/app/features/clinics/data/datasources/remote/clinic_remo
 import 'package:cga_app/app/features/clinics/data/repositories/clinic_repository_impl.dart';
 import 'package:cga_app/app/features/clinics/domain/repositories/clinic_repository.dart';
 import 'package:cga_app/app/features/clinics/domain/usecases/contract/add_clinic_usecase.dart';
+import 'package:cga_app/app/features/clinics/domain/usecases/contract/get_clinic_by_id_usecase.dart';
 import 'package:cga_app/app/features/clinics/domain/usecases/contract/get_clinics_usecase.dart';
 import 'package:cga_app/app/features/clinics/domain/usecases/contract/update_clinic_usecase.dart';
+import 'package:cga_app/app/features/clinics/domain/usecases/get_clinic_by_id_usecase_impl.dart';
 import 'package:cga_app/app/features/clinics/domain/usecases/impl/add_clinic_usecase_impl.dart';
 import 'package:cga_app/app/features/clinics/domain/usecases/impl/get_clinics_usecase_impl.dart';
 import 'package:cga_app/app/features/clinics/domain/usecases/impl/update_clinic_usecase_impl.dart';
@@ -32,6 +34,10 @@ class ClinicsBindings extends Bindings {
     );
     Get.lazyPut<UpdateClinicUsecase>(
       () => UpdateClinicUsecaseImpl(clinicRepository: Get.find()),
+      fenix: true,
+    );
+    Get.lazyPut<GetClinicByIdUsecase>(
+      () => GetClinicByIdUsecaseImpl(repository: Get.find<ClinicRepository>()),
       fenix: true,
     );
     Get.lazyPut(

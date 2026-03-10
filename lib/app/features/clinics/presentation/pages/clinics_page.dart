@@ -89,8 +89,8 @@ class _ClinicsPageState extends State<ClinicsPage> {
     );
   }
 
-  void _showDialog() {
-    showDialog(
+  Future<void> _showDialog() async {
+    await showDialog(
       context: context,
       builder: (_) => AppCrudFormDialog(
         formKey: controller.formKey,
@@ -103,6 +103,7 @@ class _ClinicsPageState extends State<ClinicsPage> {
         fields: [
           AppTextFormField(
             label: 'Nome',
+            isRequired: true,
             controller: controller.nameEC,
             validator: Validatorless.multiple([
               Validatorless.required(TextConstants.requiredField),
@@ -149,5 +150,6 @@ class _ClinicsPageState extends State<ClinicsPage> {
         ],
       ),
     );
+    controller.clearForm();
   }
 }

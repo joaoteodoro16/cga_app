@@ -8,48 +8,82 @@ import 'package:cga_app/app/features/clinics/presentation/controllers/search_cli
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SearchClinicsWidget extends StatelessWidget {
+class SearchClinicsWidget extends StatefulWidget {
   final void Function(Clinic?) onItemTap;
-  final String? description;
+  final String? initialId;
+  final String tag;
+
   const SearchClinicsWidget({
     super.key,
     required this.onItemTap,
-    this.description,
+    this.initialId,
+    required this.tag,
   });
 
   @override
+  State<SearchClinicsWidget> createState() => _SearchClinicsWidgetState();
+}
+
+class _SearchClinicsWidgetState extends State<SearchClinicsWidget> {
+  late SearchClinicsController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (!Get.isRegistered<SearchClinicsController>(tag: widget.tag)) {
+      SearchClinicsBindings(widget.tag).dependencies();
+    }
+
+    controller = Get.find<SearchClinicsController>(tag: widget.tag);
+
+    if (widget.initialId != null && widget.initialId!.isNotEmpty) {
+      controller.loadClinicById(widget.initialId!);
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant SearchClinicsWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialId != widget.initialId &&
+        widget.initialId != null &&
+        widget.initialId!.isNotEmpty) {
+      controller.loadClinicById(widget.initialId!);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SelectEntityWidget(
-      label: 'Clínica',
-      value: description,
-      onTap: () async {
-        if (!Get.isRegistered<SearchClinicsController>()) {
-          SearchClinicsBindings().dependencies();
-        }
-
-        final controller = Get.find<SearchClinicsController>();
-
-        await Get.dialog(
-          Obx(
-            () => AppSearchEntityDialog<Clinic>(
-              controller: controller,
-              filterItems: SearchClinicFilterItem.items,
-              title: 'Pesquisar clínicas',
-              items: controller.items
-                  .map(
-                    (i) => AppCrudItem(
-                      title: i.name,
-                      active: i.active,
-                      subtitle: i.cnpj,
-                      data: i,
-                    ),
-                  )
-                  .toList(),
-              onItemTap: onItemTap,
+    return Obx(
+      () => SelectEntityWidget(
+        label: 'Clínica',
+        value: controller.clinicSelected.value?.name,
+        onTap: () async {
+          await Get.dialog(
+            Obx(
+              () => AppSearchEntityDialog<Clinic>(
+                controller: controller,
+                filterItems: SearchClinicFilterItem.items,
+                title: 'Pesquisar clínicas',
+                items: controller.items
+                    .map(
+                      (i) => AppCrudItem(
+                        title: i.name,
+                        active: i.active,
+                        subtitle: i.cnpj,
+                        data: i,
+                      ),
+                    )
+                    .toList(),
+                onItemTap: (clinic) {
+                  controller.selectClinic(clinic);
+                  widget.onItemTap(clinic);
+                },
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

@@ -84,4 +84,24 @@ class ClinicRemoteDatasourceImpl extends ClinicRemoteDatasource {
       throw AppException(message: TextConstants.erroInesperado);
     }
   }
+
+  @override
+  Future<ClinicDto?> getClinicById({required String id}) async {
+    try {
+      final apiResponse = await _dio.auth().getApi(
+        AppEndPoints.getCliniById,
+        queryParameters: {'id': id},
+        fromMapT: (map) {
+          final data = map['data'];
+          return ClinicDto.fromMap(data);
+        } 
+          
+      );
+      return apiResponse.data;
+    } on AppRestClientException catch (e) {
+      throw AppException(message: e.message);
+    } catch (e) {
+      throw AppException(message: TextConstants.erroInesperado);
+    }
+  }
 }

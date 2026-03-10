@@ -13,4 +13,6 @@ abstract class ClinicRepository {
   Future<void> add({required Clinic clinic});
 
   Future<void> update({required Clinic clinic});
+
+  Future<Clinic?> getClinicById({required String id});
 }

@@ -2,8 +2,12 @@ import 'package:cga_app/app/features/groups/data/datasources/remote/group_remote
 import 'package:cga_app/app/features/groups/data/datasources/remote/group_remote_datasource_impl.dart';
 import 'package:cga_app/app/features/groups/data/repositories/group_repository_impl.dart';
 import 'package:cga_app/app/features/groups/domain/repositories/group_repository.dart';
+import 'package:cga_app/app/features/groups/domain/usecases/contracts/add_group_usecase.dart';
 import 'package:cga_app/app/features/groups/domain/usecases/contracts/get_groups_usecase.dart';
+import 'package:cga_app/app/features/groups/domain/usecases/contracts/update_group_usecase.dart';
+import 'package:cga_app/app/features/groups/domain/usecases/impl/add_group_usecase_impl.dart';
 import 'package:cga_app/app/features/groups/domain/usecases/impl/get_groups_usecase_impl.dart';
+import 'package:cga_app/app/features/groups/domain/usecases/impl/update_group_usecase_impl.dart';
 import 'package:cga_app/app/features/groups/presentation/controllers/groups_controller.dart';
 import 'package:get/get.dart';
 
@@ -22,6 +26,20 @@ class GroupsBindings extends Bindings {
       () => GetGroupsUsecaseImpl(groupRepository: Get.find()),
       fenix: true,
     );
-    Get.lazyPut(() => GroupsController(getGroupsUsecase: Get.find()));
+    Get.lazyPut<AddGroupUsecase>(
+      () => AddGroupUsecaseImpl(repository: Get.find()),
+      fenix: true,
+    );
+    Get.lazyPut<UpdateGroupUsecase>(
+      () => UpdateGroupUsecaseImpl(repository: Get.find()),
+      fenix: true,
+    );
+    Get.lazyPut(
+      () => GroupsController(
+        getGroupsUsecase: Get.find(),
+        addGroupUsecase: Get.find(),
+        updateGroupUsecase: Get.find(),
+      ),
+    );
   }
 }

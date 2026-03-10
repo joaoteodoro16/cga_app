@@ -37,4 +37,16 @@ class GroupRemoteDatasourceImpl extends GroupRemoteDatasource {
       throw AppException(message: TextConstants.erroInesperado);
     }
   }
+  
+  @override
+  Future<void> add({required GroupDto group}) async{
+    // TODO: implement add
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> update({required GroupDto group}) async{
+    // TODO: implement update
+    throw UnimplementedError();
+  }
 }

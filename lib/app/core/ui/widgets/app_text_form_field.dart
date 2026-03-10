@@ -3,7 +3,7 @@ import 'package:cga_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AppTextFormField extends StatelessWidget {
+class AppTextFormField extends StatefulWidget {
   final String label;
   final TextEditingController controller;
   final double width;
@@ -12,6 +12,7 @@ class AppTextFormField extends StatelessWidget {
   final IconData? prefixIcon;
   final bool obscureText;
   final bool enabled;
+  final bool isRequired;
 
   const AppTextFormField({
     super.key,
@@ -21,9 +22,23 @@ class AppTextFormField extends StatelessWidget {
     this.inputFormatters,
     this.validator,
     this.prefixIcon,
-    this.obscureText = false, 
-     this.enabled = true,
+    this.obscureText = false,
+    this.enabled = true,
+    this.isRequired = false,
   });
+
+  @override
+  State<AppTextFormField> createState() => _AppTextFormFieldState();
+}
+
+class _AppTextFormFieldState extends State<AppTextFormField> {
+  late bool _isObscured;
+
+  @override
+  void initState() {
+    super.initState();
+    _isObscured = widget.obscureText;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +47,13 @@ class AppTextFormField extends StatelessWidget {
     final errorBorderColor = AppColors.error;
 
     return SizedBox(
-      width: width,
+      width: widget.width,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            label,
+            widget.isRequired ? '${widget.label} *' : widget.label,
             style: context.textStyles.textRegular.copyWith(
               fontSize: 14,
               color: AppColors.labelText,
@@ -47,14 +62,25 @@ class AppTextFormField extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           TextFormField(
-            enabled: enabled,
-            obscureText: obscureText,
-            validator: validator,
-            controller: controller,
+            enabled: widget.enabled,
+            obscureText: _isObscured,
+            validator: widget.validator,
+            controller: widget.controller,
             decoration: InputDecoration(
               filled: true,
-              prefixIcon: prefixIcon != null
-                  ? Icon(prefixIcon, color: AppColors.primary)
+              prefixIcon: widget.prefixIcon != null
+                  ? Icon(widget.prefixIcon, color: AppColors.primary)
+                  : null,
+              suffixIcon: widget.obscureText
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() => _isObscured = !_isObscured);
+                      },
+                      icon: Icon(
+                        _isObscured ? Icons.visibility_off : Icons.visibility,
+                        color: AppColors.primary,
+                      ),
+                    )
                   : null,
               fillColor: AppColors.white,
               enabledBorder: OutlineInputBorder(
@@ -78,7 +104,7 @@ class AppTextFormField extends StatelessWidget {
                 horizontal: 12,
               ),
             ),
-            inputFormatters: inputFormatters,
+            inputFormatters: widget.inputFormatters,
             style: context.textStyles.textRegular.copyWith(fontSize: 14),
           ),
         ],

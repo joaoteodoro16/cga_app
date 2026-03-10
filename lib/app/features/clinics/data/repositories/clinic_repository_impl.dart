@@ -43,4 +43,10 @@ class ClinicRepositoryImpl extends ClinicRepository {
   Future<void> update({required Clinic clinic}) async {
     await _remote.update(clinic: ClinicDto.fromEntity(clinic));
   }
+
+  @override
+  Future<Clinic?> getClinicById({required String id}) async {
+    final dto = await _remote.getClinicById(id: id);
+    return dto?.toEntity();
+  }
 }

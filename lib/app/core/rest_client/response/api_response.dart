@@ -22,18 +22,6 @@ class ApiResponse<T> {
     };
   }
 
-  // factory ApiResponse.fromMap(
-  //   Map<String, dynamic> map,
-  //   T Function(Map<String, dynamic>) fromMapT,
-  // ) {
-  //   return ApiResponse<T>(
-  //     statusCode: map['statusCode']?.toInt() ?? 0,
-  //     data: map['data'] != null ? fromMapT(map['data']) : null,
-  //     success: map['success'] ?? false,
-  //     message: map['message'],
-  //   );
-  // }
-
   factory ApiResponse.fromMap(
     Map<String, dynamic> map,
     T Function(Map<String, dynamic>) fromMapT,

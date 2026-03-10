@@ -4,21 +4,41 @@ import 'package:cga_app/app/core/pagination/entities/paginated_result.dart';
 import 'package:cga_app/app/features/clinics/data/enums/search_clinic_filter_item.dart';
 import 'package:cga_app/app/features/clinics/domain/entities/clinic.dart';
 import 'package:cga_app/app/features/clinics/domain/usecases/contract/get_clinics_usecase.dart';
+import 'package:cga_app/app/features/clinics/domain/usecases/contract/get_clinic_by_id_usecase.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class SearchClinicsController extends BaseDialogPaginationController<Clinic> {
   final GetClinicsUsecase _getClinicsUsecase;
+  final GetClinicByIdUsecase _getClinicByIdUsecase;
 
-  SearchClinicsController({required GetClinicsUsecase getClinicsUsecase})
-    : _getClinicsUsecase = getClinicsUsecase;
+  SearchClinicsController({
+    required GetClinicsUsecase getClinicsUsecase,
+    required GetClinicByIdUsecase getClinicByIdUsecase,
+  }) : _getClinicsUsecase = getClinicsUsecase,
+       _getClinicByIdUsecase = getClinicByIdUsecase;
 
   String? _cnpj = "";
   String? _name = "";
 
+  final clinicSelected = Rxn<Clinic>();
+
   @override
   void onInit() {
     super.onInit();
-
     filterSelected = SearchClinicFilterItem.name;
+  }
+
+  Future<void> loadClinicById(String id) async {
+    try {
+      final clinic = await _getClinicByIdUsecase.call(id: id);
+      clinicSelected.value = clinic;
+    } catch (e) {
+      clinicSelected.value = null;
+    }
+  }
+
+  void selectClinic(Clinic? clinic) {
+    clinicSelected.value = clinic;
   }
 
   @override
@@ -35,11 +55,9 @@ class SearchClinicsController extends BaseDialogPaginationController<Clinic> {
         cnpj: _cnpj,
         name: _name,
       );
-    } on AppException catch (_) {
-      //showMessage(Messager.error(message: e.message));
+    } on AppException {
       rethrow;
-    } catch (e) {
-      //showMessage(Messager.error(message: e.toString()));
+    } catch (_) {
       rethrow;
     }
   }
@@ -57,7 +75,6 @@ class SearchClinicsController extends BaseDialogPaginationController<Clinic> {
       case SearchClinicFilterItem.cnpjKey:
         _cnpj = text;
         break;
-
       case SearchClinicFilterItem.nameKey:
         _name = text;
         break;

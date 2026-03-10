@@ -10,6 +10,7 @@ class AppEndPoints {
   //Clinic
   static String get _clinicBase => "$_baseUrl/Clinica";
   static String get getClinics => "$_clinicBase/buscar";
+  static String get getCliniById => "$_clinicBase/id";
   static String get addClinic => _clinicBase;
   static String get updateClinic => _clinicBase;
 

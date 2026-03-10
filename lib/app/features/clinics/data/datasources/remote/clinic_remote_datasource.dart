@@ -12,4 +12,5 @@ abstract class ClinicRemoteDatasource {
 
   Future<void> add({required ClinicDto clinic});
   Future<void> update({required ClinicDto clinic});
+  Future<ClinicDto?> getClinicById({required String id});
 }
