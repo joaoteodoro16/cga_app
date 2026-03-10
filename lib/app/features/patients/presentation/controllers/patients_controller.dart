@@ -16,13 +16,15 @@ class PatientsController extends BasePaginationController {
   set activeFilter(EntityStatusFilterEnum? value) =>
       _activeFilter.value = value ?? EntityStatusFilterEnum.all;
 
-    final Rxn<Group> _groupFilterSeleted = Rxn();
+  final Rxn<Group> _groupFilterSeleted = Rxn();
   Group? get groupFilterSelected => _groupFilterSeleted.value;
-  set groupFilterSelected(Group? group) =>
-      _groupFilterSeleted.value = group;
+  set groupFilterSelected(Group? group) => _groupFilterSeleted.value = group;
 
   final nameEC = TextEditingController();
   final phoneEC = TextEditingController();
+  final startDateEC = TextEditingController();
+  final endDateEC = TextEditingController();
+  final startWeightEC = TextEditingController();
 
   final _active = Rx<EntityStatusEnum>(EntityStatusEnum.active);
   bool? get active => _active.value.toBoolean();
@@ -48,12 +50,18 @@ class PatientsController extends BasePaginationController {
   void clearForm() {
     nameEC.clear();
     phoneEC.clear();
+    startDateEC.clear();
+    endDateEC.clear();
+    startWeightEC.clear();
   }
 
   @override
   void dispose() {
     nameEC.dispose();
     phoneEC.dispose();
+    startDateEC.dispose();
+    endDateEC.dispose();
+    startWeightEC.dispose();
     nameFilterEC.dispose();
     phoneEC.dispose();
     super.dispose();

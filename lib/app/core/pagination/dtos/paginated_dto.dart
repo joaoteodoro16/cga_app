@@ -28,7 +28,6 @@ class PaginatedDto<T> {
         totalPages: map['totalPages'],
       );
     }  catch (e) {
-      print(e);
       throw AppException(message: "Erro ao converter objeto");
     }
   }

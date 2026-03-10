@@ -24,14 +24,15 @@ class AppCrudFormDialog<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final maxDialogHeight = MediaQuery.of(context).size.height * 0.9;
+
     return Dialog(
       insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 700),
+        constraints: BoxConstraints(maxWidth: 700, maxHeight: maxDialogHeight),
         child: Form(
           key: formKey,
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
                 padding: const EdgeInsets.all(20),
@@ -47,17 +48,19 @@ class AppCrudFormDialog<T> extends StatelessWidget {
                 ),
               ),
               const Divider(height: 1),
-              SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: fields
-                      .map(
-                        (field) => Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: field,
-                        ),
-                      )
-                      .toList(),
+              Flexible(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: fields
+                        .map(
+                          (field) => Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: field,
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
               const Divider(height: 1),

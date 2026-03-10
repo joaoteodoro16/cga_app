@@ -11,11 +11,12 @@ class SearchGroupsWidget extends StatefulWidget {
   final void Function(Group?) onItemTap;
   final String? initialId;
   final String tag;
+  final bool isRequired;
   const SearchGroupsWidget({
     super.key,
     required this.onItemTap,
     this.initialId,
-    required this.tag,
+    required this.tag,  this.isRequired = false,
   });
 
   @override
@@ -27,7 +28,7 @@ class _SearchGroupsWidgetState extends State<SearchGroupsWidget> {
   Widget build(BuildContext context) {
     return AppSearchSelectorWidget<Group, SearchGroupsController>(
       tag: widget.tag,
-      label: 'Grupos',
+      label: widget.isRequired ? 'Grupo *' :  'Grupo',
       dialogTitle: 'Pesquisar Grupos',
       initialId: widget.initialId,
       filterItems: SearchGroupFilterItem.items,

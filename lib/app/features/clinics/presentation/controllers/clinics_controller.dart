@@ -75,10 +75,6 @@ class ClinicsController extends BasePaginationController<Clinic> {
     }
   }
 
-  Future<void> search() async {
-    await load(newPage: 1);
-  }
-
   Future<void> addClinic() async {
     try {
       showLoading();
