@@ -3,6 +3,7 @@ import 'package:cga_app/app/core/ui/models/app_crud_item.dart';
 import 'package:cga_app/app/core/ui/widgets/app_combo_box.dart';
 import 'package:cga_app/app/core/ui/widgets/app_crud_layout.dart';
 import 'package:cga_app/app/core/ui/widgets/app_text_form_field.dart';
+import 'package:cga_app/app/features/groups/presentation/widgets/search_groups_widget.dart';
 import 'package:cga_app/app/features/patients/domain/entities/patient.dart';
 import 'package:cga_app/app/features/patients/presentation/controllers/patients_controller.dart';
 import 'package:flutter/material.dart';
@@ -38,11 +39,12 @@ class _PatientsPageState extends State<PatientsPage> {
             label: 'Telefone',
             controller: controller.phoneFilterEC,
           ),
-          AppComboBox(
-            items: ['Nenhum', 'Grupo1', 'Grupo2', 'Grupo3', 'Grupo4'],
-            itemLabel: (item) => item,
-            initialValue: 'Grupo1',
-            hint: 'Grupos',
+          SearchGroupsWidget(
+            tag: 'filter',
+            onItemTap: (group) {
+              controller.groupFilterSelected = group;
+            },
+            initialId: controller.groupFilterSelected?.id,
           ),
           AppComboBox<EntityStatusFilterEnum>(
             items: EntityStatusFilterEnum.values,

@@ -2,6 +2,7 @@ import 'package:cga_app/app/core/controller/base_pagination_controller.dart';
 import 'package:cga_app/app/core/enums/entity_status_enum.dart';
 import 'package:cga_app/app/core/enums/entity_status_filter_enum.dart';
 import 'package:cga_app/app/core/pagination/entities/paginated_result.dart';
+import 'package:cga_app/app/features/groups/domain/entities/group.dart';
 import 'package:cga_app/app/features/patients/domain/entities/patient.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
@@ -14,6 +15,11 @@ class PatientsController extends BasePaginationController {
   bool? get activeFilter => _activeFilter.value.toBoolean();
   set activeFilter(EntityStatusFilterEnum? value) =>
       _activeFilter.value = value ?? EntityStatusFilterEnum.all;
+
+    final Rxn<Group> _groupFilterSeleted = Rxn();
+  Group? get groupFilterSelected => _groupFilterSeleted.value;
+  set groupFilterSelected(Group? group) =>
+      _groupFilterSeleted.value = group;
 
   final nameEC = TextEditingController();
   final phoneEC = TextEditingController();

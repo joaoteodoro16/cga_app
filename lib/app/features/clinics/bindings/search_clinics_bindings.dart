@@ -14,7 +14,6 @@ class SearchClinicsBindings extends Bindings {
     Get.lazyPut<SearchClinicsController>(
       () => SearchClinicsController(
         getClinicsUsecase: Get.find(),
-        getClinicByIdUsecase: Get.find(),
       ),
       tag: tag,
     );

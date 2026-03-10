@@ -5,6 +5,7 @@ import 'package:get/state_manager.dart';
 
 abstract class BaseDialogPaginationController<T> extends GetxController {
   final items = <T>[].obs;
+  final selected = Rxn<T>();
 
   final _page = 1.obs;
   int get page => _page.value;
@@ -33,7 +34,22 @@ abstract class BaseDialogPaginationController<T> extends GetxController {
   BaseSearchFilterItem? get filterSelected => _filterSelected.value;
   set filterSelected(BaseSearchFilterItem? value) => _filterSelected.value = value;
 
+  String? getItemId(T item) => null;
+
   Future<PaginatedResult<T>> fetch({required int page, required int pageSize});
+
+  void select(T? value) {
+    selected.value = value;
+  }
+
+  T? _findCachedById(String id) {
+    for (final item in items) {
+      if (getItemId(item) == id) {
+        return item;
+      }
+    }
+    return null;
+  }
 
   Future<void> load({int? newPage}) async {
     try {
@@ -47,6 +63,28 @@ abstract class BaseDialogPaginationController<T> extends GetxController {
       _totalItems.value = result.totalItems;
     } finally {
       hideLoading();
+    }
+  }
+
+  Future<T?> findById(String id) async {
+    final cached = _findCachedById(id);
+    if (cached != null) {
+      return cached;
+    }
+
+    if (items.isEmpty && !isLoading) {
+      await load();
+      return _findCachedById(id);
+    }
+
+    return null;
+  }
+
+  Future<void> loadById(String id) async {
+    try {
+      selected.value = await findById(id);
+    } catch (_) {
+      selected.value = null;
     }
   }
 

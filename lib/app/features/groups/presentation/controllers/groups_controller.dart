@@ -27,6 +27,7 @@ class GroupsController extends BasePaginationController<Group> {
        _updateGroupUsecase = updateGroupUsecase;
 
   final nameFilterEC = TextEditingController();
+  
   final Rxn<Clinic> _clinicFilterSeleted = Rxn();
   Clinic? get clinicFilterSelected => _clinicFilterSeleted.value;
   set clinicFilterSelected(Clinic? clinic) =>

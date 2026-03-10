@@ -1,6 +1,5 @@
 import 'package:cga_app/app/core/ui/models/app_crud_item.dart';
-import 'package:cga_app/app/core/ui/widgets/search/app_search_entity_dialog.dart';
-import 'package:cga_app/app/core/ui/widgets/search/select_entity_widget.dart';
+import 'package:cga_app/app/core/ui/widgets/search/app_search_selector_widget.dart';
 import 'package:cga_app/app/features/clinics/bindings/search_clinics_bindings.dart';
 import 'package:cga_app/app/features/clinics/data/enums/search_clinic_filter_item.dart';
 import 'package:cga_app/app/features/clinics/domain/entities/clinic.dart';
@@ -25,69 +24,25 @@ class SearchClinicsWidget extends StatefulWidget {
 }
 
 class _SearchClinicsWidgetState extends State<SearchClinicsWidget> {
-  late SearchClinicsController controller;
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (!Get.isRegistered<SearchClinicsController>(tag: widget.tag)) {
-      SearchClinicsBindings(widget.tag).dependencies();
-    }
-
-    controller = Get.find<SearchClinicsController>(tag: widget.tag);
-
-    if (widget.initialId != null && widget.initialId!.isNotEmpty) {
-      controller.loadClinicById(widget.initialId!);
-    } else {
-      controller.selectClinic(null);
-    }
-  }
-
-  @override
-  void didUpdateWidget(covariant SearchClinicsWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.initialId != widget.initialId) {
-      if (widget.initialId != null && widget.initialId!.isNotEmpty) {
-        controller.loadClinicById(widget.initialId!);
-      } else {
-        controller.selectClinic(null);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => SelectEntityWidget(
-        label: 'Clínica',
-        value: controller.clinicSelected.value?.name,
-        onTap: () async {
-          await Get.dialog(
-            Obx(
-              () => AppSearchEntityDialog<Clinic>(
-                controller: controller,
-                filterItems: SearchClinicFilterItem.items,
-                title: 'Pesquisar clínicas',
-                items: controller.items
-                    .map(
-                      (i) => AppCrudItem(
-                        title: i.name,
-                        active: i.active,
-                        subtitle: i.cnpj,
-                        data: i,
-                      ),
-                    )
-                    .toList(),
-                onItemTap: (clinic) {
-                  controller.selectClinic(clinic);
-                  widget.onItemTap(clinic);
-                },
-              ),
-            ),
-          );
-        },
+    return AppSearchSelectorWidget<Clinic, SearchClinicsController>(
+      tag: widget.tag,
+      label: 'Clínica',
+      dialogTitle: 'Pesquisar clínicas',
+      initialId: widget.initialId,
+      filterItems: SearchClinicFilterItem.items,
+      isControllerRegistered: (tag) => Get.isRegistered<SearchClinicsController>(tag: tag),
+      registerDependencies: (tag) => SearchClinicsBindings(tag).dependencies(),
+      findController: (tag) => Get.find<SearchClinicsController>(tag: tag),
+      selectedLabel: (clinic) => clinic.name,
+      itemBuilder: (clinic) => AppCrudItem(
+        title: clinic.name,
+        active: clinic.active,
+        subtitle: clinic.cnpj,
+        data: clinic,
       ),
+      onItemTap: widget.onItemTap,
     );
   }
 }

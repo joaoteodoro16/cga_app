@@ -4,23 +4,15 @@ import 'package:cga_app/app/core/pagination/entities/paginated_result.dart';
 import 'package:cga_app/app/features/clinics/data/enums/search_clinic_filter_item.dart';
 import 'package:cga_app/app/features/clinics/domain/entities/clinic.dart';
 import 'package:cga_app/app/features/clinics/domain/usecases/contract/get_clinics_usecase.dart';
-import 'package:cga_app/app/features/clinics/domain/usecases/contract/get_clinic_by_id_usecase.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class SearchClinicsController extends BaseDialogPaginationController<Clinic> {
   final GetClinicsUsecase _getClinicsUsecase;
-  final GetClinicByIdUsecase _getClinicByIdUsecase;
 
-  SearchClinicsController({
-    required GetClinicsUsecase getClinicsUsecase,
-    required GetClinicByIdUsecase getClinicByIdUsecase,
-  }) : _getClinicsUsecase = getClinicsUsecase,
-       _getClinicByIdUsecase = getClinicByIdUsecase;
+  SearchClinicsController({required GetClinicsUsecase getClinicsUsecase})
+    : _getClinicsUsecase = getClinicsUsecase;
 
   String? _cnpj = "";
   String? _name = "";
-
-  final clinicSelected = Rxn<Clinic>();
 
   @override
   void onInit() {
@@ -28,17 +20,9 @@ class SearchClinicsController extends BaseDialogPaginationController<Clinic> {
     filterSelected = SearchClinicFilterItem.name;
   }
 
-  Future<void> loadClinicById(String id) async {
-    try {
-      final clinic = await _getClinicByIdUsecase.call(id: id);
-      clinicSelected.value = clinic;
-    } catch (e) {
-      clinicSelected.value = null;
-    }
-  }
-
-  void selectClinic(Clinic? clinic) {
-    clinicSelected.value = clinic;
+  @override
+  String? getItemId(Clinic item) {
+    return item.id;
   }
 
   @override
