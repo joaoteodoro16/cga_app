@@ -7,7 +7,6 @@ import 'package:cga_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:cga_app/app/core/ui/widgets/app_combo_box.dart';
 import 'package:cga_app/app/core/ui/widgets/app_text_form_field.dart';
 import 'package:cga_app/app/core/util/screen_util.dart';
-import 'package:cga_app/app/features/clinics/data/enums/search_clinic_filter_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
@@ -17,7 +16,7 @@ class AppSearchEntityDialog<T> extends StatefulWidget {
   final String title;
   final BaseDialogPaginationController controller;
   final List<AppCrudItem<T>> items;
-  final List<SearchClinicFilterItem> filterItems;
+  final List<BaseSearchFilterItem> filterItems;
 
   const AppSearchEntityDialog({
     super.key,
