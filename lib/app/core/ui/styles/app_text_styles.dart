@@ -9,23 +9,25 @@ class AppTextStyles {
 
   static String get font => 'Inter';
 
+  TextStyle get _default => TextStyle(fontFamily: font, color: AppColors.primaryText);
+
   TextStyle get textLight =>
-      TextStyle(fontWeight: FontWeight.w300, fontFamily: font);
+      _default.copyWith(fontWeight: FontWeight.w300);
 
   TextStyle get textRegular =>
-      TextStyle(fontWeight: FontWeight.normal, fontFamily: font);
+      _default.copyWith(fontWeight: FontWeight.normal);
 
   TextStyle get textMedium =>
-      TextStyle(fontWeight: FontWeight.w500, fontFamily: font);
+      _default.copyWith(fontWeight: FontWeight.w500);
 
   TextStyle get textSemiBold =>
-      TextStyle(fontWeight: FontWeight.w600, fontFamily: font);
+      _default.copyWith(fontWeight: FontWeight.w600);
 
   TextStyle get textBold =>
-      TextStyle(fontWeight: FontWeight.bold, fontFamily: font);
+      _default.copyWith(fontWeight: FontWeight.bold, );
 
   TextStyle get textExtraBold =>
-      TextStyle(fontWeight: FontWeight.w800, fontFamily: font);
+      _default.copyWith(fontWeight: FontWeight.w800);
 
   TextStyle get textButtonLabel => textBold.copyWith(
         fontSize: 14,

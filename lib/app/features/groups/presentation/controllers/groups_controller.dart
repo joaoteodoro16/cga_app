@@ -2,6 +2,7 @@ import 'package:cga_app/app/core/controller/base_pagination_controller.dart';
 import 'package:cga_app/app/core/enums/entity_status_enum.dart';
 import 'package:cga_app/app/core/enums/entity_status_filter_enum.dart';
 import 'package:cga_app/app/core/exceptions/exceptions.dart';
+import 'package:cga_app/app/core/extensions/string_extension.dart';
 import 'package:cga_app/app/core/pagination/entities/paginated_result.dart';
 import 'package:cga_app/app/core/ui/helpers/messager.dart';
 import 'package:cga_app/app/features/clinics/domain/entities/clinic.dart';
@@ -36,6 +37,10 @@ class GroupsController extends BasePaginationController<Group> {
   set activeFilter(EntityStatusFilterEnum? value) =>
       _activeFilter.value = value ?? EntityStatusFilterEnum.all;
 
+  final _active = Rx<EntityStatusEnum>(EntityStatusEnum.active);
+  bool? get active => _active.value.toBoolean();
+  set active(EntityStatusEnum value) => _active.value = value;
+
   //Cadastro
   final formKey = GlobalKey<FormState>();
   final nameEC = TextEditingController();
@@ -44,10 +49,6 @@ class GroupsController extends BasePaginationController<Group> {
 
   Clinic? get clinicSelected => _clinicSelected.value;
   set clinicSelected(Clinic? clinic) => _clinicSelected.value = clinic;
-
-  final _active = Rx<EntityStatusEnum>(EntityStatusEnum.active);
-  bool? get active => _active.value.toBoolean();
-  set active(EntityStatusEnum value) => _active.value = value;
 
   Group? editingGroup;
 
@@ -63,7 +64,13 @@ class GroupsController extends BasePaginationController<Group> {
     required int pageSize,
   }) async {
     try {
-      return await _getGroupsUsecase.call(page: page, pageSize: pageSize);
+      return await _getGroupsUsecase.call(
+        page: page,
+        pageSize: pageSize,
+        active: activeFilter,
+        clinicId: clinicFilterSelected?.id,
+        name: nameEC.text.nullIfEmpty,
+      );
     } on AppException catch (e) {
       showMessage(Messager.error(message: e.message));
       rethrow;
@@ -76,9 +83,14 @@ class GroupsController extends BasePaginationController<Group> {
   Future<void> addGroup() async {
     try {
       showLoading();
+
       final entity = _buildEntity();
       await _addGroupUsecase.call(group: entity);
       hideLoading();
+
+      cleanForm();
+      showMessage(Messager.success(message: "Grupo cadastrado com sucesso!"));
+      await load();
     } on AppException catch (e) {
       showMessage(Messager.error(message: e.message));
     } catch (e) {
@@ -92,6 +104,10 @@ class GroupsController extends BasePaginationController<Group> {
       final entity = _buildEntity();
       await _updateGroupUsecase.call(group: entity);
       hideLoading();
+
+      cleanForm();
+      showMessage(Messager.success(message: "Grupo alterado com sucesso!"));
+      await load();
     } on AppException catch (e) {
       showMessage(Messager.error(message: e.message));
     } catch (e) {
@@ -104,10 +120,14 @@ class GroupsController extends BasePaginationController<Group> {
   }
 
   Group _buildEntity() {
+    final clinic = clinicSelected ?? editingGroup?.clinic;
+
+    if (clinic == null) throw AppException(message: "Selecione uma clínica");
+
     return Group(
       id: editingGroup?.id ?? '',
       name: nameEC.text,
-      clinicId: clinicSelected?.id ?? editingGroup?.clinicId ?? '',
+      clinic: clinic,
       patients: [],
       active: active ?? false,
     );
@@ -117,6 +137,7 @@ class GroupsController extends BasePaginationController<Group> {
     nameEC.clear();
     descriptionEC.clear();
     clinicSelected = null;
+    editingGroup = null;
   }
 
   void cleanFilters() {

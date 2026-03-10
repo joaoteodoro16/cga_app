@@ -1,10 +1,11 @@
+import 'package:cga_app/app/features/clinics/domain/entities/clinic.dart';
 import 'package:cga_app/app/features/patients/domain/entities/patient.dart';
 
 class Group {
   final String id;
   final String name;
   final String? description;
-  final String clinicId;
+  final Clinic clinic;
   final List<Patient> patients;
   final bool active;
 
@@ -12,7 +13,7 @@ class Group {
     required this.id,
     required this.name,
     this.description,
-    required this.clinicId,
+    required this.clinic,
     required this.patients,
     required this.active,
   });

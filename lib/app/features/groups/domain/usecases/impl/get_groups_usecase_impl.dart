@@ -19,6 +19,12 @@ class GetGroupsUsecaseImpl extends GetGroupsUsecase {
     required int page,
     required int pageSize,
   }) async {
-    return await _groupRepository.getAll(page: page, pageSize: pageSize);
+    return await _groupRepository.getAll(
+      page: page,
+      pageSize: pageSize,
+      active: active,
+      clinicId: clinicId,
+      name: name,
+    );
   }
 }

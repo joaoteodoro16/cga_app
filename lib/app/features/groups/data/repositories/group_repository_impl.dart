@@ -18,7 +18,7 @@ class GroupRepositoryImpl extends GroupRepository {
     required int page,
     required int pageSize,
   }) async {
-    final result = await _remote.getAll(page: page, pageSize: pageSize);
+    final result = await _remote.getAll(page: page, pageSize: pageSize, active: active, clinicId: clinicId, name: name);
 
     return PaginatedResult<Group>(
       items: result.items.map((dto) => dto.toEntity()).toList(),

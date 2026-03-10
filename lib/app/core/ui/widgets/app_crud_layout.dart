@@ -1,5 +1,5 @@
 import 'package:cga_app/app/core/ui/models/app_crud_item.dart';
-import 'package:cga_app/app/core/ui/styles/app_button.dart';
+import 'package:cga_app/app/core/ui/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:cga_app/app/core/ui/styles/app_colors.dart';
 import 'package:cga_app/app/core/ui/styles/app_text_styles.dart';
@@ -207,11 +207,27 @@ class _AppCrudLayoutState extends State<AppCrudLayout> {
                         ),
                       ),
                       subtitle: item.subtitle != null
-                          ? Text(
-                              item.subtitle!,
-                              style: context.textStyles.textRegular.copyWith(
-                                fontSize: 14,
-                              ),
+                          ? Column(
+                              spacing: 2,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.subtitle!,
+                                  style: context.textStyles.textRegular
+                                      .copyWith(fontSize: 14),
+                                ),
+                                Visibility(
+                                  visible: item.secondSubtitle != null,
+                                  child: Text(
+                                    item.secondSubtitle ?? '',
+                                    style: context.textStyles.textRegular
+                                        .copyWith(
+                                          fontSize: 14,
+                                          color: AppColors.mediumGrey,
+                                        ),
+                                  ),
+                                ),
+                              ],
                             )
                           : null,
                       trailing: Container(

@@ -22,6 +22,11 @@ class GroupRemoteDatasourceImpl extends GroupRemoteDatasource {
     try {
       final apiResponse = await _dio.auth().getApi(
         AppEndPoints.getGroups,
+        queryParameters: {
+          'nome': name,
+          'clinicaId': clinicId,
+          'ativo': active
+        },
         fromMapT: (map) {
           final data = map['data'];
           return PaginatedDto<GroupDto>.fromMap(
@@ -37,16 +42,46 @@ class GroupRemoteDatasourceImpl extends GroupRemoteDatasource {
       throw AppException(message: TextConstants.erroInesperado);
     }
   }
-  
+
   @override
-  Future<void> add({required GroupDto group}) async{
-    // TODO: implement add
-    throw UnimplementedError();
+  Future<void> add({required GroupDto group}) async {
+    try {
+      final apiResponse = await _dio.auth().postApi<GroupDto>(
+        AppEndPoints.addGroups,
+        data: group.toMap(),
+        fromMapT: (map) => GroupDto.fromMap(map),
+      );
+
+      if (!apiResponse.success) {
+        throw AppException(
+          message: apiResponse.message ?? TextConstants.erroInesperado,
+        );
+      }
+    } on AppRestClientException catch (e) {
+      throw AppException(message: e.message);
+    } catch (e) {
+      throw AppException(message: TextConstants.erroInesperado);
+    }
   }
-  
+
   @override
-  Future<void> update({required GroupDto group}) async{
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<void> update({required GroupDto group}) async {
+    try {
+      final apiResponse = await _dio.auth().putApi<GroupDto>(
+        AppEndPoints.updateGroups,
+        data: group.toMap(),
+        fromMapT: (map) => GroupDto.fromMap(map),
+      );
+
+      if (!apiResponse.success) {
+        throw AppException(
+          message: apiResponse.message ?? TextConstants.erroInesperado,
+        );
+      }
+    } on AppRestClientException catch (e) {
+      throw AppException(message: e.message);
+    } catch (e) {
+      throw AppException(message: TextConstants.erroInesperado);
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:cga_app/app/core/ui/helpers/messager.dart';
+import 'package:cga_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:toastification/toastification.dart';
@@ -65,7 +66,7 @@ abstract class BaseController extends GetxController {
           style: ToastificationStyle.flatColored,
           autoCloseDuration: const Duration(seconds: 5),
           title: Text(msg.title),
-          description: RichText(text: TextSpan(text: msg.message)),
+          description: RichText(text: TextSpan(text: msg.message, style: AppTextStyles.instance.textRegular)),
           alignment: Alignment.topRight,
           direction: TextDirection.ltr,
           animationDuration: const Duration(milliseconds: 300),

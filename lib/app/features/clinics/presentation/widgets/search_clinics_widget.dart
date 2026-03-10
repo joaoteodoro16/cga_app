@@ -39,16 +39,20 @@ class _SearchClinicsWidgetState extends State<SearchClinicsWidget> {
 
     if (widget.initialId != null && widget.initialId!.isNotEmpty) {
       controller.loadClinicById(widget.initialId!);
+    } else {
+      controller.selectClinic(null);
     }
   }
 
   @override
   void didUpdateWidget(covariant SearchClinicsWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.initialId != widget.initialId &&
-        widget.initialId != null &&
-        widget.initialId!.isNotEmpty) {
-      controller.loadClinicById(widget.initialId!);
+    if (oldWidget.initialId != widget.initialId) {
+      if (widget.initialId != null && widget.initialId!.isNotEmpty) {
+        controller.loadClinicById(widget.initialId!);
+      } else {
+        controller.selectClinic(null);
+      }
     }
   }
 

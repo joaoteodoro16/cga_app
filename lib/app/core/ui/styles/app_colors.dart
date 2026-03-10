@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
   
+  //TEXTO
+  static Color get primaryText => const Color.fromARGB(255, 17, 17, 17);
+
   //APLICAÇÃO
   static Color get primary => Color(0XFF002144);
   static Color get secondary => Color.fromARGB(255, 163, 84, 0);
@@ -12,7 +15,8 @@ class AppColors {
 
   //COMUNS
   static Color get white => Colors.white;
-  static Color get lightGrey => const Color.fromARGB(255, 221, 221, 221);
+  static Color get lightGrey => const Color.fromARGB(255, 207, 207, 207);
+  static Color get mediumGrey => const Color.fromARGB(255, 158, 158, 158);
   static Color get transparent => Colors.transparent;
   static Color get black => Colors.black;
   

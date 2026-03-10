@@ -1,5 +1,5 @@
 import 'package:cga_app/app/core/constants/text_constants.dart';
-import 'package:cga_app/app/core/ui/styles/app_button.dart';
+import 'package:cga_app/app/core/ui/widgets/app_button.dart';
 import 'package:cga_app/app/core/ui/styles/app_colors.dart';
 import 'package:cga_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:cga_app/app/core/ui/widgets/app_text_form_field.dart';

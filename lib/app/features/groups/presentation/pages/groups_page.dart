@@ -1,6 +1,8 @@
 import 'package:cga_app/app/core/constants/text_constants.dart';
 import 'package:cga_app/app/core/enums/entity_status_enum.dart';
+import 'package:cga_app/app/core/enums/entity_status_filter_enum.dart';
 import 'package:cga_app/app/core/ui/models/app_crud_item.dart';
+import 'package:cga_app/app/core/ui/widgets/app_combo_box.dart';
 import 'package:cga_app/app/core/ui/widgets/app_crud_form_dialog.dart';
 import 'package:cga_app/app/core/ui/widgets/app_crud_layout.dart';
 import 'package:cga_app/app/core/ui/widgets/app_text_form_field.dart';
@@ -21,7 +23,7 @@ class GroupsPage extends StatefulWidget {
 
 class _GroupsPageState extends State<GroupsPage> {
   final _controller = Get.find<GroupsController>();
-  
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -35,17 +37,26 @@ class _GroupsPageState extends State<GroupsPage> {
         onNew: () => _showDialog(),
         onFilterClean: _controller.cleanFilters,
         filters: Column(
+          spacing: 10,
           children: [
             AppTextFormField(
               label: 'Nome',
               controller: _controller.nameFilterEC,
             ),
-            const SizedBox(height: 10),
             SearchClinicsWidget(
               tag: 'clinic_filter',
               initialId: _controller.clinicFilterSelected?.id,
               onItemTap: (clinic) {
                 _controller.clinicFilterSelected = clinic;
+              },
+            ),
+            AppComboBox<EntityStatusFilterEnum>(
+              items: EntityStatusFilterEnum.values,
+              itemLabel: (item) => item.description,
+              initialValue: EntityStatusFilterEnum.values.first,
+              hint: 'Status',
+              onChanged: (value) {
+                _controller.activeFilter = value;
               },
             ),
           ],
@@ -56,15 +67,19 @@ class _GroupsPageState extends State<GroupsPage> {
             title: item.name,
             subtitle: item.description,
             active: item.active,
+            secondSubtitle: 'Clínica: ${item.clinic.name}',
             data: item,
           );
         }),
         onItemTap: (item) {
           final group = item.data;
           _controller.editingGroup = group;
-          _controller.nameEC.text = group.name;
-          _controller.descriptionEC.text = group.description ?? '';
-          _controller.active = EntityStatusEnum.fromBoolean(group.active);
+          final editingGroup = _controller.editingGroup;
+          _controller.nameEC.text = editingGroup?.name ?? '';
+          _controller.descriptionEC.text = editingGroup?.description ?? '';
+          _controller.active = EntityStatusEnum.fromBoolean(
+            editingGroup?.active ?? false,
+          );
           _controller.clinicSelected = null;
           _showDialog();
         },
@@ -73,7 +88,7 @@ class _GroupsPageState extends State<GroupsPage> {
   }
 
   Future<void> _showDialog() async {
-    showDialog(
+    await showDialog(
       context: context,
       builder: (context) {
         return AppCrudFormDialog(
@@ -94,9 +109,20 @@ class _GroupsPageState extends State<GroupsPage> {
             ),
             SearchClinicsWidget(
               tag: 'clinic_form_${_controller.editingGroup?.id ?? 'new'}',
-              initialId: _controller.editingGroup?.clinicId,
+              initialId: _controller.editingGroup?.clinic.id,
               onItemTap: (clinic) {
                 _controller.clinicSelected = clinic;
+              },
+            ),
+            AppComboBox<EntityStatusEnum>(
+              items: EntityStatusEnum.values,
+              itemLabel: (item) => item.description,
+              initialValue: EntityStatusEnum.fromBoolean(
+                _controller.active ?? true,
+              ),
+              hint: 'Status',
+              onChanged: (value) {
+                _controller.active = value!;
               },
             ),
           ],

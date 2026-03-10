@@ -1,7 +1,7 @@
 import 'package:cga_app/app/core/controller/base_dialog_pagination_controller.dart';
 import 'package:cga_app/app/core/ui/models/app_crud_item.dart';
 import 'package:cga_app/app/core/ui/models/base_search_filter_item.dart';
-import 'package:cga_app/app/core/ui/styles/app_button.dart';
+import 'package:cga_app/app/core/ui/widgets/app_button.dart';
 import 'package:cga_app/app/core/ui/styles/app_colors.dart';
 import 'package:cga_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:cga_app/app/core/ui/widgets/app_combo_box.dart';
