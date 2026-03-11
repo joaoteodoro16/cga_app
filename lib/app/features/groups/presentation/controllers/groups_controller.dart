@@ -124,7 +124,9 @@ class GroupsController extends BasePaginationController<Group> {
     return Group(
       id: editingGroup?.id ?? '',
       name: nameEC.text,
+      description: descriptionEC.text.nullIfEmpty,
       clinic: clinic,
+      clinicId: clinic.id,
       patients: [],
       active: active ?? false,
     );

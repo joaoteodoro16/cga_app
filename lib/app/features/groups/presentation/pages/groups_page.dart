@@ -67,7 +67,7 @@ class _GroupsPageState extends State<GroupsPage> {
             title: item.name,
             subtitle: item.description,
             active: item.active,
-            secondSubtitle: 'Clínica: ${item.clinic.name}',
+            secondSubtitle: 'Clínica: ${item.clinic?.name ?? 'N/A'}',
             data: item,
           );
         }),
@@ -109,7 +109,7 @@ class _GroupsPageState extends State<GroupsPage> {
             ),
             SearchClinicsWidget(
               tag: 'clinic_form_${_controller.editingGroup?.id ?? 'new'}',
-              initialId: _controller.editingGroup?.clinic.id,
+              initialId: _controller.editingGroup?.clinicId,
               onItemTap: (clinic) {
                 _controller.clinicSelected = clinic;
               },

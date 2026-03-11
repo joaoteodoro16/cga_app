@@ -5,7 +5,8 @@ class Group {
   final String id;
   final String name;
   final String? description;
-  final Clinic clinic;
+  final String clinicId;
+  final Clinic? clinic; // opcional
   final List<Patient> patients;
   final bool active;
 
@@ -13,7 +14,8 @@ class Group {
     required this.id,
     required this.name,
     this.description,
-    required this.clinic,
+    required this.clinicId,
+    this.clinic,
     required this.patients,
     required this.active,
   });

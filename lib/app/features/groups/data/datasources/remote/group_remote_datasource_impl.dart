@@ -3,7 +3,9 @@ import 'package:cga_app/app/core/exceptions/exceptions.dart';
 import 'package:cga_app/app/core/pagination/dtos/paginated_dto.dart';
 import 'package:cga_app/app/core/rest_client/app_rest_client.dart';
 import 'package:cga_app/app/core/rest_client/end_points/app_end_points.dart';
-import 'package:cga_app/app/features/groups/data/dtos/group_dto.dart';
+import 'package:cga_app/app/features/groups/data/dtos/create_group_dto.dart';
+import 'package:cga_app/app/features/groups/data/dtos/get_groups_dto.dart';
+import 'package:cga_app/app/features/groups/data/dtos/update_group_dto.dart';
 import './group_remote_datasource.dart';
 
 class GroupRemoteDatasourceImpl extends GroupRemoteDatasource {
@@ -12,7 +14,7 @@ class GroupRemoteDatasourceImpl extends GroupRemoteDatasource {
   GroupRemoteDatasourceImpl({required AppRestClient dio}) : _dio = dio;
 
   @override
-  Future<PaginatedDto<GroupDto>> getAll({
+  Future<PaginatedDto<GetGroupsDto>> getAll({
     String? name,
     String? clinicId,
     bool? active,
@@ -22,16 +24,12 @@ class GroupRemoteDatasourceImpl extends GroupRemoteDatasource {
     try {
       final apiResponse = await _dio.auth().getApi(
         AppEndPoints.getGroups,
-        queryParameters: {
-          'nome': name,
-          'clinicaId': clinicId,
-          'ativo': active
-        },
+        queryParameters: {'nome': name, 'clinicaId': clinicId, 'ativo': active},
         fromMapT: (map) {
           final data = map['data'];
-          return PaginatedDto<GroupDto>.fromMap(
+          return PaginatedDto<GetGroupsDto>.fromMap(
             data,
-            (item) => GroupDto.fromMap(item),
+            (item) => GetGroupsDto.fromMap(item),
           );
         },
       );
@@ -44,12 +42,12 @@ class GroupRemoteDatasourceImpl extends GroupRemoteDatasource {
   }
 
   @override
-  Future<void> add({required GroupDto group}) async {
+  Future<void> add({required CreateGroupDto group}) async {
     try {
-      final apiResponse = await _dio.auth().postApi<GroupDto>(
+      final apiResponse = await _dio.auth().postApi<CreateGroupDto>(
         AppEndPoints.addGroups,
         data: group.toMap(),
-        fromMapT: (map) => GroupDto.fromMap(map),
+        fromMapT: (map) => CreateGroupDto.fromMap(map),
       );
 
       if (!apiResponse.success) {
@@ -65,12 +63,12 @@ class GroupRemoteDatasourceImpl extends GroupRemoteDatasource {
   }
 
   @override
-  Future<void> update({required GroupDto group}) async {
+  Future<void> update({required UpdateGroupDto group}) async {
     try {
-      final apiResponse = await _dio.auth().putApi<GroupDto>(
+      final apiResponse = await _dio.auth().putApi<UpdateGroupDto>(
         AppEndPoints.updateGroups,
         data: group.toMap(),
-        fromMapT: (map) => GroupDto.fromMap(map),
+        fromMapT: (map) => UpdateGroupDto.fromMap(map),
       );
 
       if (!apiResponse.success) {

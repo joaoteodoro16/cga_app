@@ -1,6 +1,7 @@
 import 'package:cga_app/app/core/pagination/entities/paginated_result.dart';
 import 'package:cga_app/app/features/clinics/data/datasources/remote/clinic_remote_datasource.dart';
-import 'package:cga_app/app/features/clinics/data/dtos/clinic_dto.dart';
+import 'package:cga_app/app/features/clinics/data/dtos/create_clinic_dto.dart';
+import 'package:cga_app/app/features/clinics/data/dtos/update_clinic_dto.dart';
 import 'package:cga_app/app/features/clinics/domain/entities/clinic.dart';
 import 'package:cga_app/app/features/clinics/domain/repositories/clinic_repository.dart';
 
@@ -36,12 +37,12 @@ class ClinicRepositoryImpl extends ClinicRepository {
 
   @override
   Future<void> add({required Clinic clinic}) async {
-    await _remote.add(clinic: ClinicDto.fromEntity(clinic));
+    await _remote.create(clinic: CreateClinicDto.fromEntity(clinic: clinic));
   }
 
   @override
   Future<void> update({required Clinic clinic}) async {
-    await _remote.update(clinic: ClinicDto.fromEntity(clinic));
+    await _remote.update(clinic: UpdateClinicDto.fromEntity(clinic: clinic));
   }
 
   @override

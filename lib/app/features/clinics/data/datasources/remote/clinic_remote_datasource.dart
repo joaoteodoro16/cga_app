@@ -1,8 +1,11 @@
 import 'package:cga_app/app/core/pagination/dtos/paginated_dto.dart';
-import 'package:cga_app/app/features/clinics/data/dtos/clinic_dto.dart';
+import 'package:cga_app/app/features/clinics/data/dtos/create_clinic_dto.dart';
+import 'package:cga_app/app/features/clinics/data/dtos/get_clinic_by_id_dto.dart';
+import 'package:cga_app/app/features/clinics/data/dtos/get_clinics_dto.dart';
+import 'package:cga_app/app/features/clinics/data/dtos/update_clinic_dto.dart';
 
 abstract class ClinicRemoteDatasource {
-  Future<PaginatedDto<ClinicDto>> getAll({
+  Future<PaginatedDto<GetClinicsDto>> getAll({
     int? page,
     int? pageSize,
     String? cnpj,
@@ -10,7 +13,7 @@ abstract class ClinicRemoteDatasource {
     bool? active,
   });
 
-  Future<void> add({required ClinicDto clinic});
-  Future<void> update({required ClinicDto clinic});
-  Future<ClinicDto?> getClinicById({required String id});
+  Future<void> create({required CreateClinicDto clinic});
+  Future<void> update({required UpdateClinicDto clinic});
+  Future<GetClinicByIdDto?> getClinicById({required String id});
 }
