@@ -68,7 +68,7 @@ class GroupsController extends BasePaginationController<Group> {
       return await _getGroupsUsecase.call(
         page: page,
         pageSize: pageSize,
-        active: activeFilter,
+        active: activeFilter,       
         clinicId: clinicFilterSelected?.id,
         name: nameEC.text.nullIfEmpty,
       );

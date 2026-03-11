@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:cga_app/app/features/clinics/domain/entities/clinic.dart';
-import 'package:cga_app/app/features/groups/data/dtos/clinic_group_dto.dart';
+import 'package:cga_app/app/features/groups/data/dtos/group_summary_dto.dart';
+
 
 class GetClinicByIdDto {
   final String id;

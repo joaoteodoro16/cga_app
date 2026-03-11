@@ -54,6 +54,7 @@ class GetGroupsDto {
       name: nome,
       description: descricao,
       clinicId: clinica.id,
+      clinic: clinica.toEntity(),
       patients: [],
       active: ativo,
     );
