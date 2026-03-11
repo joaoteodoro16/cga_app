@@ -2,20 +2,22 @@ import 'package:cga_app/app/features/groups/domain/entities/group.dart';
 
 class Patient {
   final String id;
-  final String name;
-  final List<Group> groups;
-  final String phone;
-  final DateTime startDate;
-  final DateTime endDate;
-  final double startingWeight;
+  final String nome;
+  final Group grupo;
+  final String telefone;
+  final DateTime dataInicio;
+  final DateTime dataEncerramento;
+  final double pesoInicial;
+  final bool ativo;
 
   Patient({
     required this.id,
-    required this.name,
-    required this.groups,
-    required this.startDate,
-    required this.endDate,
-    required this.startingWeight,
-    required this.phone,
+    required this.nome,
+    required this.grupo,
+    required this.dataInicio,
+    required this.dataEncerramento,
+    required this.pesoInicial,
+    required this.telefone,
+    required this.ativo,
   });
 }

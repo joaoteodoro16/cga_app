@@ -48,6 +48,8 @@ class GroupDto {
     );
   }
 
+
+
   factory GroupDto.fromEntity(Group entity) {
     return GroupDto(
       id: entity.id,

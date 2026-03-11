@@ -19,4 +19,11 @@ class AppEndPoints {
   static String get getGroups => "$_groupBase/buscar";
   static String get addGroups => _groupBase;
   static String get updateGroups => _groupBase;
+
+  //Patients
+  static String get _patientBase => "$_baseUrl/Paciente";
+  static String get getPatients => "$_patientBase/buscar";
+  static String get addPatients => _patientBase;
+  static String get updatePatients => _patientBase;
+
 }
