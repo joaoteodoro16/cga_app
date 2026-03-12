@@ -39,9 +39,9 @@ class PatientGroupDto {
       id: map['id'] ?? '',
       nome: map['nome'] ?? '',
       descricao: map['descricao'] ?? '',
-      dataCadastro: DateTime.fromMillisecondsSinceEpoch(map['dataCadastro']),
+      dataCadastro: DateTime.parse(map['dataCadastro']),
       dataAtualizacao: map['dataAtualizacao'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['dataAtualizacao'])
+          ? DateTime.parse(map['dataAtualizacao'])
           : null,
       ativo: map['ativo'] ?? false,
       clinica: ClinicSummaryDto.fromMap(map['clinica']),

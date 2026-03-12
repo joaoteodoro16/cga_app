@@ -3,6 +3,7 @@ import 'package:cga_app/app/core/constants/text_constants.dart';
 import 'package:cga_app/app/core/enums/entity_status_enum.dart';
 import 'package:cga_app/app/core/enums/entity_status_filter_enum.dart';
 import 'package:cga_app/app/core/ui/models/app_crud_item.dart';
+import 'package:cga_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:cga_app/app/core/ui/widgets/app_combo_box.dart';
 import 'package:cga_app/app/core/ui/widgets/app_crud_form_dialog.dart';
 import 'package:cga_app/app/features/clinics/domain/entities/clinic.dart';
@@ -84,6 +85,31 @@ class _ClinicsPageState extends State<ClinicsPage> {
           controller.phoneEC.text = entity.phone ?? '';
           controller.active = EntityStatusEnum.fromBoolean(entity.active);
           _showDialog();
+        },
+        itemContentBuilder: (context, item) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'CNPJ: ${item.data.cnpj}',
+                style: context.textStyles.textMedium,
+              ),
+              Visibility(
+                visible: item.data.phone != null,
+                child: Text(
+                  'Telefone: ${item.data.phone ?? 'N/A'}',
+                  style: context.textStyles.textMedium,
+                ),
+              ),
+              Visibility(
+                visible: item.data.address != null,
+                child: Text(
+                  'Endereço: ${item.data.address ?? 'N/A'}',
+                  style: context.textStyles.textMedium,
+                ),
+              ),
+            ],
+          );
         },
       ),
     );

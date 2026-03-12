@@ -13,6 +13,8 @@ class AppTextFormField extends StatefulWidget {
   final bool obscureText;
   final bool enabled;
   final bool isRequired;
+  final bool readOnly;
+  final VoidCallback? onTap;
 
   const AppTextFormField({
     super.key,
@@ -25,6 +27,8 @@ class AppTextFormField extends StatefulWidget {
     this.obscureText = false,
     this.enabled = true,
     this.isRequired = false,
+    this.readOnly = false,
+    this.onTap,
   });
 
   @override
@@ -63,6 +67,8 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
           const SizedBox(height: 4),
           TextFormField(
             enabled: widget.enabled,
+            readOnly: widget.readOnly,
+            onTap: widget.onTap,
             obscureText: _isObscured,
             validator: widget.validator,
             controller: widget.controller,

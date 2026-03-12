@@ -2,6 +2,7 @@ import 'package:cga_app/app/core/constants/text_constants.dart';
 import 'package:cga_app/app/core/enums/entity_status_enum.dart';
 import 'package:cga_app/app/core/enums/entity_status_filter_enum.dart';
 import 'package:cga_app/app/core/ui/models/app_crud_item.dart';
+import 'package:cga_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:cga_app/app/core/ui/widgets/app_combo_box.dart';
 import 'package:cga_app/app/core/ui/widgets/app_crud_form_dialog.dart';
 import 'package:cga_app/app/core/ui/widgets/app_crud_layout.dart';
@@ -82,6 +83,24 @@ class _GroupsPageState extends State<GroupsPage> {
           );
           _controller.clinicSelected = null;
           _showDialog();
+        },
+        itemContentBuilder: (context, item) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Visibility(
+                visible: item.data.description != null,
+                child: Text(
+                  'Descrição: ${item.data.description ?? 'N/A'}',
+                  style: context.textStyles.textMedium,
+                ),
+              ),
+              Text(
+                'Clínica: ${item.data.clinic?.name ?? 'N/A'}',
+                style: context.textStyles.textMedium,
+              ),
+            ],
+          );
         },
       ),
     );

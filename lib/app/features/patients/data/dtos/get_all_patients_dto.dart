@@ -42,10 +42,8 @@ class GetAllPatientsDto {
       nome: map['nome'] ?? '',
       telefone: map['telefone'] ?? '',
       grupo: PatientGroupDto.fromMap(map['grupo']),
-      dataInicio: DateTime.fromMillisecondsSinceEpoch(map['dataInicio']),
-      dataEncerramento: DateTime.fromMillisecondsSinceEpoch(
-        map['dataEncerramento'],
-      ),
+      dataInicio: DateTime.parse(map['dataInicio']),
+      dataEncerramento: DateTime.parse(map['dataEncerramento']),
       pesoInicial: map['pesoInicial']?.toDouble() ?? 0.0,
       ativo: map['ativo'] ?? false,
     );
@@ -61,6 +59,7 @@ class GetAllPatientsDto {
       pesoInicial: pesoInicial,
       telefone: telefone,
       ativo: ativo,
+      grupoId: grupo.id,
     );
   }
 

@@ -22,7 +22,9 @@ class PatientRepositoryImpl extends PatientRepository {
   Future<PaginatedResult<Patient>> getAll({
     String? name,
     String? groupId,
+    String? clinicId,
     bool? active,
+    String? phone,
     required int page,
     required int pageSize,
   }) async {
@@ -31,7 +33,9 @@ class PatientRepositoryImpl extends PatientRepository {
       pageSize: pageSize,
       active: active,
       groupId: groupId,
+      clinicId: clinicId,
       name: name,
+      phone: phone
     );
 
     return PaginatedResult<Patient>(

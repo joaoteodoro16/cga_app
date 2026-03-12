@@ -48,7 +48,7 @@ class CreatePatientDto {
       dataInicio: patient.dataInicio,
       dataEncerramento: patient.dataEncerramento,
       pesoInicial: patient.pesoInicial,
-      grupoId: patient.grupo.id,
+      grupoId: patient.grupo?.id ?? '',
     );
   }
 

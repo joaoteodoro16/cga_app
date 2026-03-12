@@ -18,14 +18,24 @@ class PatientRemoteDatasourceImpl extends PatientRemoteDatasource {
   Future<PaginatedDto<GetAllPatientsDto>> getAll({
     String? name,
     String? groupId,
+    String? clinicId,
     bool? active,
+    String? phone,
     required int page,
     required int pageSize,
   }) async {
     try {
       final apiResponse = await _dio.auth().getApi(
         AppEndPoints.getPatients,
-        queryParameters: {'nome': name, 'grupoId': groupId, 'ativo': active},
+        queryParameters: {
+          'Nome': name,
+          'GrupoId': groupId,
+          'ClinicaId': clinicId,
+          'Telefone': phone,
+          'Ativo': active,
+          'Page': page,
+          'PageSize': pageSize,
+        },
         fromMapT: (map) {
           final data = map['data'];
           return PaginatedDto<GetAllPatientsDto>.fromMap(
@@ -48,7 +58,7 @@ class PatientRemoteDatasourceImpl extends PatientRemoteDatasource {
       final apiResponse = await _dio.auth().postApi<CreatePatientDto>(
         AppEndPoints.addPatients,
         data: patient.toMap(),
-        fromMapT: (map) => CreatePatientDto.fromMap(map),
+        fromMapT: (map) => CreatePatientDto.fromMap(map['data']),
       );
 
       if (apiResponse.data == null) {
@@ -64,10 +74,10 @@ class PatientRemoteDatasourceImpl extends PatientRemoteDatasource {
   @override
   Future<void> update({required UpdatePatientDto patient}) async {
     try {
-      final apiResponse = await _dio.auth().postApi<UpdatePatientDto>(
+      final apiResponse = await _dio.auth().putApi<UpdatePatientDto>(
         AppEndPoints.updatePatients,
         data: patient.toMap(),
-        fromMapT: (map) => UpdatePatientDto.fromMap(map),
+        fromMapT: (map) => UpdatePatientDto.fromMap(map['data']),
       );
 
       if (apiResponse.data == null) {

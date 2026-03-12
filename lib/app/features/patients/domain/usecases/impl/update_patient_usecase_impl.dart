@@ -2,12 +2,12 @@ import 'package:cga_app/app/core/exceptions/exceptions.dart';
 import 'package:cga_app/app/features/patients/domain/entities/patient.dart';
 import 'package:cga_app/app/features/patients/domain/repositories/patient_repository.dart';
 
-import '../contracts/create_patient_usecase.dart';
+import '../contracts/update_patient_usecase.dart';
 
-class CreatePatientUsecaseImpl extends CreatePatientUsecase {
+class UpdatePatientUsecaseImpl extends UpdatePatientUsecase {
   final PatientRepository _repository;
 
-  CreatePatientUsecaseImpl({required PatientRepository repository})
+  UpdatePatientUsecaseImpl({required PatientRepository repository})
     : _repository = repository;
 
   @override
@@ -17,11 +17,6 @@ class CreatePatientUsecaseImpl extends CreatePatientUsecase {
         message: 'Data de início deve ser anterior à data de fim',
       );
     }
-
-    if (patient.grupo == null) {
-      throw AppException(message: 'Grupo é obrigatório');
-    }
-
-    await _repository.add(patient: patient);
+    await _repository.update(patient: patient);
   }
 }

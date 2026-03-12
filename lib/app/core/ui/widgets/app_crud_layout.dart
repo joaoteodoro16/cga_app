@@ -9,6 +9,7 @@ class AppCrudLayout extends StatefulWidget {
   final List<AppCrudItem> items;
   final String pageTitle;
   final void Function(AppCrudItem)? onItemTap;
+  final Widget Function(BuildContext context, AppCrudItem item)? itemContentBuilder;
 
   final VoidCallback onSearch;
   final VoidCallback onNew;
@@ -32,6 +33,7 @@ class AppCrudLayout extends StatefulWidget {
     this.onItemTap,
     required this.pageTitle,
     required this.onFilterClean,
+    this.itemContentBuilder,
   });
 
   @override
@@ -196,6 +198,59 @@ class _AppCrudLayoutState extends State<AppCrudLayout> {
                       Divider(height: .1, color: AppColors.borderColor),
                   itemBuilder: (context, index) {
                     final item = widget.items[index];
+
+                    if (widget.itemContentBuilder != null) {
+                      return Material(
+                        color: item.active
+                            ? AppColors.white
+                            : AppColors.lightGrey,
+                        child: InkWell(
+                          onTap: () => widget.onItemTap?.call(item),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 10,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        item.title,
+                                        style: context.textStyles.textBold
+                                            .copyWith(fontSize: 16),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        color: item.active
+                                            ? AppColors.activeTileEntityColor
+                                            : AppColors.inactiveTileEntityColor,
+                                        borderRadius: BorderRadius.circular(2),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          item.active ? 'A' : 'I',
+                                          style: context.textStyles.textRegular
+                                              .copyWith(color: AppColors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 6),
+                                widget.itemContentBuilder!(context, item),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+
                     return ListTile(
                       tileColor: item.active
                           ? AppColors.white
@@ -207,27 +262,11 @@ class _AppCrudLayoutState extends State<AppCrudLayout> {
                         ),
                       ),
                       subtitle: item.subtitle != null
-                          ? Column(
-                              spacing: 2,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.subtitle!,
-                                  style: context.textStyles.textRegular
-                                      .copyWith(fontSize: 14),
-                                ),
-                                Visibility(
-                                  visible: item.secondSubtitle != null,
-                                  child: Text(
-                                    item.secondSubtitle ?? '',
-                                    style: context.textStyles.textRegular
-                                        .copyWith(
-                                          fontSize: 14,
-                                          color: AppColors.mediumGrey,
-                                        ),
-                                  ),
-                                ),
-                              ],
+                          ? Text(
+                              item.subtitle!,
+                              style: context.textStyles.textRegular.copyWith(
+                                fontSize: 14,
+                              ),
                             )
                           : null,
                       trailing: Container(

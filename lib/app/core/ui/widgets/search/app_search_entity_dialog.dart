@@ -45,6 +45,7 @@ class _AppSearchEntityDialogState<T> extends State<AppSearchEntityDialog<T>> {
   Widget build(BuildContext context) {
     final isMobile = ScreenUtils.isMobile(context);
     return Dialog(
+      shape: const RoundedRectangleBorder(),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 800, maxHeight: 1000),
         child: Column(

@@ -60,6 +60,8 @@ class GetClinicsDto {
       id: id,
       name: nome,
       cnpj: cnpj,
+      address: endereco,
+      phone: telefone,
       groups: grupos.map((g) => g.toEntity()).toList(),
       active: ativo,
     );

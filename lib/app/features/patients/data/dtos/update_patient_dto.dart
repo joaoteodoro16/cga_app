@@ -34,6 +34,16 @@ class UpdatePatientDto {
 		};
 	}
 
+//   {
+//   "id": "cbe7eef9-af6b-4235-a827-da0f10231bd1",
+//   "nome": "João Gabriel Teodoro",
+//   "telefone": "14996431278",
+//   "dataInicio": "2026-02-27T12:00:00Z",
+//   "dataEncerramento": "2026-08-27T12:00:00Z",
+//   "pesoInicial": 82.5,
+//   "ativo" : false
+// }
+
 	factory UpdatePatientDto.fromMap(Map<String, dynamic> map) {
 		return UpdatePatientDto(
 			id: map['id'] ?? '',

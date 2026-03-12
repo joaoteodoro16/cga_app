@@ -27,6 +27,7 @@ class AppCrudFormDialog<T> extends StatelessWidget {
     final maxDialogHeight = MediaQuery.of(context).size.height * 0.9;
 
     return Dialog(
+      shape: const RoundedRectangleBorder(),
       insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       child: ConstrainedBox(
         constraints: BoxConstraints(maxWidth: 700, maxHeight: maxDialogHeight),

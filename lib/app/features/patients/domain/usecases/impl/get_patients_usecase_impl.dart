@@ -13,10 +13,20 @@ class GetPatientsUsecaseImpl extends GetPatientsUsecase {
   Future<PaginatedResult<Patient>> call({
     String? name,
     String? groupId,
+    String? clinicId,
     bool? active,
+    String? phone,
     required int page,
     required int pageSize,
   }) async {
-    return await _repository.getAll(page: page, pageSize: pageSize);
+    return await _repository.getAll(
+      name: name,
+      groupId: groupId,
+      active: active,
+      clinicId: clinicId,
+      phone: phone,
+      page: page,
+      pageSize: pageSize,
+    );
   }
 }
