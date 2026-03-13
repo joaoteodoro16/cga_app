@@ -45,26 +45,24 @@ class HomePage extends StatelessWidget {
                 HomeMenuButton(
                   title: 'Clínicas',
                   icon: Icons.local_hospital,
-
                   onTap: () => Get.toNamed(AppRoutes.clinics),
                 ),
                 HomeMenuButton(
                   title: 'Grupos',
                   icon: FontAwesomeIcons.whatsapp,
-
                   onTap: () => Get.toNamed(AppRoutes.groups),
                 ),
                 HomeMenuButton(
                   title: 'Pacientes',
                   icon: Icons.person,
-
                   onTap: () => Get.toNamed(AppRoutes.patients),
                 ),
                 HomeMenuButton(
                   title: 'Acompanhamentos',
                   icon: Icons.check_circle,
-
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(AppRoutes.dailyChecklist);
+                  },
                 ),
               ],
             ),

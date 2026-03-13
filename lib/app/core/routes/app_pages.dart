@@ -3,6 +3,7 @@ import 'package:cga_app/app/features/auth/bindings/login_binding.dart';
 import 'package:cga_app/app/features/auth/presentation/login/login_page.dart';
 import 'package:cga_app/app/features/clinics/bindings/clinics_bindings.dart';
 import 'package:cga_app/app/features/clinics/presentation/pages/clinics_page.dart';
+import 'package:cga_app/app/features/daily-checklist/presentation/page/daily_checklist_page.dart';
 import 'package:cga_app/app/features/groups/bindings/groups_bindings.dart';
 import 'package:cga_app/app/features/groups/presentation/pages/groups_page.dart';
 import 'package:cga_app/app/features/home/bindings/home_binding.dart';
@@ -37,6 +38,11 @@ class AppPages {
       name: AppRoutes.patients,
       page: () => PatientsPage(),
       binding: PatientsBindings(),
+    ),
+    GetPage(
+      name: AppRoutes.dailyChecklist,
+      page: () => DailyChecklistPage(),
+      
     ),
   ];
 }

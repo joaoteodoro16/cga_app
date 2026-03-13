@@ -97,7 +97,9 @@ class _SelectEntityWidgetState extends State<SelectEntityWidget> {
                     value ?? 'Selecionar',
                     style: context.textStyles.textRegular.copyWith(
                       fontSize: 14,
-                      color: value == null ? AppColors.labelText : AppColors.black,
+                      color: value == null
+                          ? AppColors.labelText
+                          : AppColors.black,
                     ),
                   ),
                 ),

@@ -63,9 +63,9 @@ class _HomeMenuButtonState extends State<HomeMenuButton> {
                   height: iconContainerSize,
                   width: iconContainerSize,
                   decoration: BoxDecoration(
-                    color: Theme.of(context)
-                        .primaryColor
-                        .withValues(alpha: 0.1),
+                    color: Theme.of(
+                      context,
+                    ).primaryColor.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(

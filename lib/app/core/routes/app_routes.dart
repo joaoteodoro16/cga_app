@@ -5,4 +5,5 @@ abstract class AppRoutes {
   static const clinics = '/clinics';
   static const groups = '/groups';
   static const patients = '/patients';
+  static const dailyChecklist = '/daily-checklist';
 }

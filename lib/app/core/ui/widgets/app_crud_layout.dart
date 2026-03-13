@@ -9,7 +9,8 @@ class AppCrudLayout extends StatefulWidget {
   final List<AppCrudItem> items;
   final String pageTitle;
   final void Function(AppCrudItem)? onItemTap;
-  final Widget Function(BuildContext context, AppCrudItem item)? itemContentBuilder;
+  final Widget Function(BuildContext context, AppCrudItem item)?
+  itemContentBuilder;
 
   final VoidCallback onSearch;
   final VoidCallback onNew;
