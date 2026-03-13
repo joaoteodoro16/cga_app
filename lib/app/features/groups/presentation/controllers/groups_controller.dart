@@ -10,6 +10,7 @@ import 'package:cga_app/app/features/groups/domain/entities/group.dart';
 import 'package:cga_app/app/features/groups/domain/usecases/contracts/add_group_usecase.dart';
 import 'package:cga_app/app/features/groups/domain/usecases/contracts/get_groups_usecase.dart';
 import 'package:cga_app/app/features/groups/domain/usecases/contracts/update_group_usecase.dart';
+import 'package:cga_app/app/features/groups/domain/usecases/params/get_all_groups_params.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,7 +28,7 @@ class GroupsController extends BasePaginationController<Group> {
        _updateGroupUsecase = updateGroupUsecase;
 
   final nameFilterEC = TextEditingController();
-  
+
   final Rxn<Clinic> _clinicFilterSeleted = Rxn();
   Clinic? get clinicFilterSelected => _clinicFilterSeleted.value;
   set clinicFilterSelected(Clinic? clinic) =>
@@ -66,11 +67,13 @@ class GroupsController extends BasePaginationController<Group> {
   }) async {
     try {
       return await _getGroupsUsecase.call(
-        page: page,
-        pageSize: pageSize,
-        active: activeFilter,       
-        clinicId: clinicFilterSelected?.id,
-        name: nameEC.text.nullIfEmpty,
+        params: GetAllGroupsParams(
+          page: page,
+          pageSize: pageSize,
+          active: activeFilter,
+          clinicName: clinicFilterSelected?.id,
+          name: nameEC.text.nullIfEmpty,
+        ),
       );
     } on AppException catch (e) {
       showMessage(Messager.error(message: e.message));

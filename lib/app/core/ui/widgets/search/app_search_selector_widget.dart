@@ -23,6 +23,7 @@ class AppSearchSelectorWidget<
   final String Function(T item) selectedLabel;
   final AppCrudItem<T> Function(T item) itemBuilder;
   final void Function(T?) onItemTap;
+  final Widget Function(BuildContext context, AppCrudItem<T> item)? itemContentBuilder;
 
   const AppSearchSelectorWidget({
     super.key,
@@ -37,7 +38,7 @@ class AppSearchSelectorWidget<
     required this.findController,
     required this.selectedLabel,
     required this.itemBuilder,
-    required this.onItemTap,
+    required this.onItemTap, this.itemContentBuilder,
   });
 
   @override
@@ -103,6 +104,7 @@ class _AppSearchSelectorWidgetState<
                   controller.select(item);
                   widget.onItemTap(item);
                 },
+                itemContentBuilder: widget.itemContentBuilder,
               ),
             ),
           );

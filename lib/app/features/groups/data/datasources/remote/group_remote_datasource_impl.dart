@@ -5,6 +5,7 @@ import 'package:cga_app/app/core/rest_client/app_rest_client.dart';
 import 'package:cga_app/app/core/rest_client/end_points/app_end_points.dart';
 import 'package:cga_app/app/features/groups/data/dtos/create_group_dto.dart';
 import 'package:cga_app/app/features/groups/data/dtos/get_groups_dto.dart';
+import 'package:cga_app/app/features/groups/data/dtos/get_groups_request_dto.dart';
 import 'package:cga_app/app/features/groups/data/dtos/update_group_dto.dart';
 import './group_remote_datasource.dart';
 
@@ -15,16 +16,13 @@ class GroupRemoteDatasourceImpl extends GroupRemoteDatasource {
 
   @override
   Future<PaginatedDto<GetGroupsDto>> getAll({
-    String? name,
-    String? clinicId,
-    bool? active,
-    required int page,
-    required int pageSize,
+    required GetGroupsRequestDto request,
   }) async {
     try {
       final apiResponse = await _dio.auth().getApi(
         AppEndPoints.getGroups,
-        queryParameters: {'nome': name, 'clinicaId': clinicId, 'ativo': active},
+        queryParameters: request.toMap()
+          ..removeWhere((key, value) => value == null),
         fromMapT: (map) {
           final data = map['data'];
           return PaginatedDto<GetGroupsDto>.fromMap(

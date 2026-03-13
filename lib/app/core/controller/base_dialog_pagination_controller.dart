@@ -1,7 +1,10 @@
 import 'package:cga_app/app/core/pagination/entities/paginated_result.dart';
+import 'package:cga_app/app/core/ui/helpers/messager.dart';
 import 'package:cga_app/app/core/ui/models/base_search_filter_item.dart';
+import 'package:cga_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+import 'package:toastification/toastification.dart';
 
 abstract class BaseDialogPaginationController<T> extends GetxController {
   final items = <T>[].obs;
@@ -32,11 +35,18 @@ abstract class BaseDialogPaginationController<T> extends GetxController {
 
   final Rxn<BaseSearchFilterItem> _filterSelected = Rxn<BaseSearchFilterItem>();
   BaseSearchFilterItem? get filterSelected => _filterSelected.value;
-  set filterSelected(BaseSearchFilterItem? value) => _filterSelected.value = value;
+  set filterSelected(BaseSearchFilterItem? value) =>
+      _filterSelected.value = value;
 
   String? getItemId(T item) => null;
 
-  Future<PaginatedResult<T>> fetch({required int page, required int pageSize});
+  final _message = Rxn<MessagerType>();
+
+  void showMessage(MessagerType message) {
+    _message.value = message;
+  }
+
+  Future<PaginatedResult<T>?> fetch({required int page, required int pageSize});
 
   void select(T? value) {
     selected.value = value;
@@ -57,10 +67,12 @@ abstract class BaseDialogPaginationController<T> extends GetxController {
 
       final result = await fetch(page: newPage ?? page, pageSize: pageSize);
 
-      items.assignAll(result.items);
-      page = result.page;
-      _totalPages.value = result.totalPages;
-      _totalItems.value = result.totalItems;
+      if (result != null) {
+        items.assignAll(result.items);
+        page = result.page;
+        _totalPages.value = result.totalPages;
+        _totalItems.value = result.totalItems;
+      }
     } finally {
       hideLoading();
     }
@@ -91,6 +103,7 @@ abstract class BaseDialogPaginationController<T> extends GetxController {
   Future<void> search() async {
     await load(newPage: 1);
   }
+
   void showLoading() {
     _isLoading.value = true;
   }
@@ -111,14 +124,47 @@ abstract class BaseDialogPaginationController<T> extends GetxController {
     }
   }
 
-  void clearFilter(){
+  void clearFilter() {
     _searchText.clear();
   }
-
 
   @override
   void dispose() {
     _searchText.dispose();
     super.dispose();
+  }
+
+  @override
+  void onReady() {
+    _bindMessageListener();
+    super.onReady();
+  }
+
+  void _bindMessageListener() {
+    ever<MessagerType?>(_message, (msg) {
+      if (msg != null) {
+        toastification.show(
+          type: msg.type,
+          style: ToastificationStyle.flatColored,
+          autoCloseDuration: const Duration(seconds: 5),
+          title: Text(msg.title),
+          description: RichText(
+            text: TextSpan(
+              text: msg.message,
+              style: AppTextStyles.instance.textRegular,
+            ),
+          ),
+          alignment: Alignment.topRight,
+          direction: TextDirection.ltr,
+          animationDuration: const Duration(milliseconds: 300),
+          icon: const Icon(Icons.check),
+          showIcon: true,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+        );
+        _message.value = null;
+      }
+    });
   }
 }

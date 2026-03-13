@@ -4,17 +4,17 @@ class SearchGroupFilterItem extends BaseSearchFilterItem {
   const SearchGroupFilterItem({required super.label, required super.key});
 
   static const String nameKey = "name";
-  static const String cnpjKey = "cnpj";
+  static const String clinicNameKey = "clinicName";
 
   static const SearchGroupFilterItem name = SearchGroupFilterItem(
     label: "Nome",
     key: nameKey,
   );
 
-  static const SearchGroupFilterItem cnpj = SearchGroupFilterItem(
-    label: "CNPJ",
-    key: cnpjKey,
+  static const SearchGroupFilterItem clinicName = SearchGroupFilterItem(
+    label: "Nome da Clínica",
+    key: clinicNameKey,
   );
 
-  static const List<SearchGroupFilterItem> items = [name, cnpj];
+  static const List<SearchGroupFilterItem> items = [name, clinicName];
 }

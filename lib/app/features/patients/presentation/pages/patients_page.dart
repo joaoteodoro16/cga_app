@@ -10,6 +10,7 @@ import 'package:cga_app/app/core/ui/widgets/app_crud_layout.dart';
 import 'package:cga_app/app/core/ui/widgets/app_date_picker_form_field.dart';
 import 'package:cga_app/app/core/ui/widgets/app_text_form_field.dart';
 import 'package:cga_app/app/core/util/date_util.dart';
+import 'package:cga_app/app/core/util/value_util.dart';
 import 'package:cga_app/app/features/clinics/presentation/widgets/search_clinics_widget.dart';
 import 'package:cga_app/app/features/groups/presentation/widgets/search_groups_widget.dart';
 import 'package:cga_app/app/features/patients/domain/entities/patient.dart';
@@ -145,7 +146,7 @@ class _PatientsPageState extends State<PatientsPage> {
                 ],
               ),
               Text(
-                'Peso inicial: ${item.data.pesoInicial}',
+                'Peso inicial: ${ValueUtil.toPtBr(item.data.pesoInicial,decimalDigits: 1)}',
                 style: context.textStyles.textBold,
               ),
             ],

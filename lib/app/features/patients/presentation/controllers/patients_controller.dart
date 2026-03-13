@@ -141,7 +141,7 @@ class PatientsController extends BasePaginationController {
       telefone: phoneEC.text,
       dataInicio: DateUtil.pTBRDateToDateTime(startDateEC.text),
       dataEncerramento: DateUtil.pTBRDateToDateTime(endDateEC.text),
-      pesoInicial: double.tryParse(startWeightEC.text) ?? 0.0,
+      pesoInicial: startWeightEC.text.toDoubleOrThrow,
       ativo: active ?? true,
       grupoId: groupSelected?.id ?? '',
       grupo: groupSelected,
@@ -153,6 +153,7 @@ class PatientsController extends BasePaginationController {
     phoneFilterEC.clear();
     activeFilter = EntityStatusFilterEnum.all;
     groupFilterSelected = null;
+    clinicFilterSelected = null;
     await load();
   }
 

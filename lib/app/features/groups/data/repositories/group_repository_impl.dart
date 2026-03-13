@@ -1,9 +1,11 @@
 import 'package:cga_app/app/core/pagination/entities/paginated_result.dart';
 import 'package:cga_app/app/features/groups/data/datasources/remote/group_remote_datasource.dart';
 import 'package:cga_app/app/features/groups/data/dtos/create_group_dto.dart';
+import 'package:cga_app/app/features/groups/data/dtos/get_groups_request_dto.dart';
 import 'package:cga_app/app/features/groups/data/dtos/update_group_dto.dart';
 import 'package:cga_app/app/features/groups/domain/entities/group.dart';
 import 'package:cga_app/app/features/groups/domain/repositories/group_repository.dart';
+import 'package:cga_app/app/features/groups/domain/usecases/params/get_all_groups_params.dart';
 
 class GroupRepositoryImpl extends GroupRepository {
   final GroupRemoteDatasource _remote;
@@ -12,20 +14,9 @@ class GroupRepositoryImpl extends GroupRepository {
     : _remote = remote;
 
   @override
-  Future<PaginatedResult<Group>> getAll({
-    String? name,
-    String? clinicId,
-    bool? active,
-    required int page,
-    required int pageSize,
-  }) async {
-    final result = await _remote.getAll(
-      page: page,
-      pageSize: pageSize,
-      active: active,
-      clinicId: clinicId,
-      name: name,
-    );
+  Future<PaginatedResult<Group>> getAll({required GetAllGroupsParams params}) async {
+
+    final result = await _remote.getAll(request: GetGroupsRequestDto.fromParams(params));
 
     return PaginatedResult<Group>(
       items: result.items.map((dto) => dto.toEntity()).toList(),

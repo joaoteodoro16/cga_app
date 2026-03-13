@@ -17,6 +17,8 @@ class AppSearchEntityDialog<T> extends StatefulWidget {
   final BaseDialogPaginationController controller;
   final List<AppCrudItem<T>> items;
   final List<BaseSearchFilterItem> filterItems;
+  final Widget Function(BuildContext context, AppCrudItem<T> item)?
+  itemContentBuilder;
 
   const AppSearchEntityDialog({
     super.key,
@@ -25,6 +27,7 @@ class AppSearchEntityDialog<T> extends StatefulWidget {
     required this.controller,
     required this.items,
     required this.filterItems,
+    this.itemContentBuilder,
   });
 
   @override
@@ -149,6 +152,50 @@ class _AppSearchEntityDialogState<T> extends State<AppSearchEntityDialog<T>> {
                               ),
                               itemBuilder: (context, index) {
                                 final item = widget.items[index];
+
+                                if (widget.itemContentBuilder != null) {
+                                  return Material(
+                                    color: item.active
+                                        ? AppColors.white
+                                        : AppColors.lightGrey,
+                                    child: InkWell(
+                                      onTap: () {
+                                        widget.onItemTap.call(item.data);
+                                        Get.back();
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                          vertical: 10,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    item.title,
+                                                    style: context
+                                                        .textStyles
+                                                        .textBold
+                                                        .copyWith(fontSize: 16),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            widget.itemContentBuilder!(
+                                              context,
+                                              item,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+
                                 return ListTile(
                                   tileColor: item.active
                                       ? AppColors.white
@@ -165,23 +212,6 @@ class _AppSearchEntityDialogState<T> extends State<AppSearchEntityDialog<T>> {
                                               .copyWith(fontSize: 14),
                                         )
                                       : null,
-                                  trailing: Container(
-                                    width: 20,
-                                    height: 20,
-                                    decoration: BoxDecoration(
-                                      color: item.active
-                                          ? AppColors.activeTileEntityColor
-                                          : AppColors.inactiveTileEntityColor,
-                                      borderRadius: BorderRadius.circular(2),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        item.active ? 'A' : 'I',
-                                        style: context.textStyles.textRegular
-                                            .copyWith(color: AppColors.white),
-                                      ),
-                                    ),
-                                  ),
                                   onTap: () {
                                     widget.onItemTap.call(item.data);
                                     Get.back();

@@ -16,7 +16,8 @@ class SearchGroupsWidget extends StatefulWidget {
     super.key,
     required this.onItemTap,
     this.initialId,
-    required this.tag,  this.isRequired = false,
+    required this.tag,
+    this.isRequired = false,
   });
 
   @override
@@ -28,7 +29,7 @@ class _SearchGroupsWidgetState extends State<SearchGroupsWidget> {
   Widget build(BuildContext context) {
     return AppSearchSelectorWidget<Group, SearchGroupsController>(
       tag: widget.tag,
-      label: widget.isRequired ? 'Grupo *' :  'Grupo',
+      label: widget.isRequired ? 'Grupo *' : 'Grupo',
       dialogTitle: 'Pesquisar Grupos',
       initialId: widget.initialId,
       filterItems: SearchGroupFilterItem.items,
@@ -45,6 +46,26 @@ class _SearchGroupsWidgetState extends State<SearchGroupsWidget> {
         data: group,
       ),
       onItemTap: widget.onItemTap,
+      itemContentBuilder: (context, item) {
+        final group = item.data;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Visibility(
+              visible: group.description != null && group.description!.isNotEmpty,
+              child: Text(
+                group.description ?? '',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            Text(
+              "Clínica: ${group.clinic?.name ?? ''}",
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        );
+      },
     );
   }
 }
